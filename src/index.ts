@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { loadDemoData } from "./core/load-data.js";
+import type { RiskFinding } from "./core/types.js";
 import { generateWeeklyBrief } from "./intelligence/brief-weekly.js";
 import { suggestDris } from "./intelligence/dri-suggest.js";
 import { getOrgHealth } from "./intelligence/org-health.js";
@@ -8,6 +9,40 @@ import { runRiskScan } from "./intelligence/risk-scan.js";
 function printHelp() {
   console.log(`Feishu Org Intelligence CLI\n
 Usage:\n  npm run dev -- risk scan\n  npm run dev -- dri suggest\n  npm run dev -- brief weekly\n  npm run dev -- org health\n`);
+}
+
+function renderSeveritySummary(findings: RiskFinding[]): string[] {
+  const critical = findings.filter((item) => item.severity === "Critical").length;
+  const high = findings.filter((item) => item.severity === "High").length;
+  const medium = findings.filter((item) => item.severity === "Medium").length;
+  return [
+    `- Critical: ${critical}`,
+    `- High: ${high}`,
+    `- Medium: ${medium}`,
+  ];
+}
+
+function renderRiskScan(findings: RiskFinding[]): string {
+  const groups: RiskFinding["severity"][] = ["Critical", "High", "Medium"];
+  const lines = ["# 风险驾驶舱", "", "## 风险概览", ...renderSeveritySummary(findings), ""];
+
+  for (const severity of groups) {
+    const bucket = findings.filter((item) => item.severity === severity);
+    if (bucket.length === 0) continue;
+
+    lines.push(`## ${severity} 风险`);
+    bucket.forEach((finding, index) => {
+      lines.push(
+        `${index + 1}. ${finding.title}`,
+        `   - 项目：${finding.projectId}`,
+        `   - 原因：${finding.reason}`,
+        `   - 建议动作：${finding.suggestion}`,
+        "",
+      );
+    });
+  }
+
+  return lines.join("\n");
 }
 
 async function main() {
@@ -22,12 +57,7 @@ async function main() {
   const findings = runRiskScan(data);
 
   if (domain === "risk" && action === "scan") {
-    console.log(`# 风险扫描结果\n`);
-    findings.forEach((finding, index) => {
-      console.log(
-        `${index + 1}. [${finding.severity}] ${finding.title}\n   - project: ${finding.projectId}\n   - reason: ${finding.reason}\n   - suggestion: ${finding.suggestion}\n`,
-      );
-    });
+    console.log(renderRiskScan(findings));
     return;
   }
 
