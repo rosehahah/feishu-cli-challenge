@@ -1,244 +1,134 @@
 # Feishu Org Intelligence
 
-> 当前仓库已从单纯 CLI 原型，升级为 **“组织智能内核 + Skill 交付骨架”** 的项目结构。CLI 仍保留作为调试/演示控制台，Skill 作为赛事提交与能力封装层。
+> 一个面向办公与管理协同的 **组织智能原型**：以世界模型为基础，用 Intelligence Layer 识别风险、推荐 DRI、生成管理周报，并通过 Skill 形态与 Feishu 输出链路回到真实协作场景。
 
-[English](./README.en.md) | 简体中文
-
-> 一个基于飞书 CLI 的组织智能原型，用“世界模型 + DRI 机制 + CLI 编排”降低跨团队项目推进中的信息路由和协同成本。
-
-本项目面向 **飞书 CLI 大赛**，聚焦一个高价值、强协作的真实场景：**跨团队 AI 产品功能上线**。
+[English](./README.en.md) | [简体中文](./README.zh-CN.md)
 
 ---
 
-## 项目背景
+## 这是什么
 
-今天很多团队已经开始给个人配 AI 助手，但组织推进这件事，仍然高度依赖：
+这不是一个普通的任务工具，也不是一个只会聊天的助手。
 
-- 人肉同步
-- 状态会 / 对齐会
-- 层层汇报
-- manager 手工路由信息
-- 风险靠经验感知，而不是被系统识别
+它试图回答一个更底层的问题：
 
-问题不在于“团队没有工具”，而在于：
+> 当组织规模增大、协作链路变长，原本依赖层级、会议和 manager 人肉协调完成的信息汇总、风险识别、责任路由与推进建议，是否可以逐步由一层“组织智能”来辅助完成？
 
-> 当协作开始跨产品、设计、研发、数据、运营时，信息会快速分散，责任会逐渐模糊，推进成本会显著上升。
-
-Feishu Org Intelligence CLI 想做的，不是再加一个个人助手，而是补上一层 **组织智能层**：
-
-- 用结构化数据描述目标、项目、任务、风险、责任和信号
-- 自动识别跨团队推进过程中的阻塞与异常
-- 为关键问题推荐 DRI（Directly Responsible Individual）
-- 自动生成周报、管理简报和健康度视图
-- 后续输出到 Feishu Docs / Bitable / Chat
-
-一句话概括：
-
-> 把跨团队推进，从“靠人催”升级成“靠模型协调”。
+本项目基于 Block 的文章 **From Hierarchy to Intelligence** 的启发，尝试把这件事落成一个可运行、可演示、可继续产品化的飞书方向原型。
 
 ---
 
-## 项目价值
+## 项目定位
 
-本项目希望验证的，不只是一个 CLI 能不能跑起来，而是一种新的组织协作方式：
+当前仓库不是单纯 CLI 项目，而是一个三层结构：
 
-- **更早发现风险**：把超期、阻塞、责任缺失、长期未更新等问题前置暴露
-- **更快找到责任人**：通过 DRI 推荐机制减少“这事到底谁来推进”的模糊地带
-- **更低的管理同步成本**：把零散进展自动整理成周报和管理视图
-- **更强的协作可见性**：让“目标—风险—责任—动作”形成闭环
-- **更有产品化空间**：不仅适合比赛演示，也具备继续接入飞书对象、走向实际场景的基础
+1. **World Model**：用结构化数据描述 Goals / Projects / Tasks / Risks / DRIs / Signals
+2. **Intelligence Layer**：对组织推进状态进行解释、诊断和建议
+3. **Delivery Layer**：以 Skill 形态对外暴露能力，并把结果回流到 Feishu Docs / Base / Chat
 
----
+所以它真正想验证的是：
 
-## 灵感来源
-
-本项目的核心灵感，来自 Block 的这篇文章：
-
-- [From Hierarchy to Intelligence](https://block.xyz/inside/from-hierarchy-to-intelligence)
-
-这篇文章启发我们的，不是某一个具体功能，而是一种更底层的组织协作视角：
-
-> 当组织规模扩大、协作链路变长，很多原本依赖层级结构完成的信息汇总、风险识别、责任分配与推进协调，是否可以逐步由“智能层”来辅助完成？
-
-Feishu Org Intelligence CLI 可以看作是基于这一思路做出的一个飞书 CLI 原型化尝试。  
-我们希望把文章里的抽象认知，进一步落到真实工作流中，验证它是否能在“目标—项目—任务—风险—责任”这条推进链路上创造实际价值。
-
-同时，也向这篇文章致敬：
-
-> 它帮助我们把“组织智能”从一个概念，转成了一个可以被结构化、被编排、被演示的产品方向。
+> 飞书不只是工作流容器，也可以承载一层面向组织推进的智能系统。
 
 ---
 
-## 核心理念
+## 当前已经完成什么
 
-这个项目借鉴了 **From Hierarchy to Intelligence** 的思路，但不是在空谈组织理论，而是在飞书工作流里做一个可运行、可演示的原型。
+### 1. 可运行的组织智能内核
+仓库中已经实现了基于 TypeScript 的分析能力：
 
-### 1. 组织世界模型（World Model）
-用结构化数据描述组织推进中的核心对象：
+- `risk scan`：识别超期、阻塞、缺少 DRI、长期未更新、健康度异常、已有风险项
+- `dri suggest`：基于项目 DRI、任务执行人、目标 owner 推荐责任归属
+- `brief weekly`：生成组织周报 / 管理简报
+- `org health`：计算当前目标与项目整体健康度
 
-- Goals
-- Projects
-- Tasks
-- Risks
-- DRIs
-- Signals
+### 2. Skill 交付骨架
+当前分支新增了：
 
-### 2. 组织智能层（Intelligence Layer）
-在世界模型之上，提供可解释的判断与建议：
+- `skill/SKILL.md`
+- `skill/references/submission-positioning.md`
+- `skill/references/feishu-output-plan.md`
+- `skill/references/competition-checklist.md`
+- `skill/scripts/run-skill.mjs`
+- `src/skill-runner.ts`
 
-- `risk scan`
-- `dri suggest`
-- `brief weekly`
-- `org health`
+这意味着当前项目已经从“纯 CLI 原型”升级为：
 
-### 3. 飞书落地层（Feishu Layer）
-把结果真正输出到协作环境中：
+> **组织智能内核 + Skill 交付层**
 
-- Bitable
-- Docs
-- Chat
-- Tasks（后续）
+### 3. 最小 Feishu 输出路径
+当前已经补了两类最小输出：
 
-所以本项目的核心，不是一个“任务管理工具”，而是一套：
+- `npm run export:doc`：生成 Docs 风格的 Markdown 输出
+- `npm run export:feishu-doc`：生成可进一步写入真实 Feishu Docs 的 payload JSON
 
-> **组织世界模型 + 智能规则层 + 飞书协作对象输出链路**
+它们用于证明：
 
----
-
-## Demo 场景
-
-当前 MVP 采用的演示场景是：**AI 产品功能上线**。
-
-目标：上线 **AI 风格海报功能**，并验证首月核心转化。
-
-涉及团队：
-
-- 产品
-- 设计
-- 研发
-- 数据
-- 运营
-
-这个场景天然存在典型跨团队问题：
-
-- 关键任务阻塞
-- 项目健康度下降
-- 增长验证缺少统一 DRI
-- 灰度方案无人强推进
-- 管理者需要快速看到“风险—责任—动作”闭环
-
-这也是本项目最想解决的问题：
-
-> 不是记录任务，而是帮助团队更顺畅地推进任务。
+> 项目不是停在命令行里，而是在朝真正的办公协作闭环推进。
 
 ---
 
-## 当前能力
+## 为什么第一阶段先做 CLI
 
-当前版本已经实现一个基于 **Node.js / TypeScript** 的组织智能内核，并新增了面向赛事提交的 **Skill 包装层**。当前既可以作为 CLI 运行，也可以按 Skill 方式理解和演示。
+因为本项目第一阶段最重要的不是入口壳子，而是先证明组织智能内核成立。
 
-### 已实现命令
+如果一开始就直接压在 Bot、卡片、事件订阅、权限、部署这些事情上，很容易把时间耗在基础设施，而不是耗在真正的产品命题上。
 
-#### 1. 风险扫描
-```bash
-npm run dev -- risk scan
-```
-识别：
-- 超期任务
-- 阻塞任务
-- 缺少 DRI 的关键事项
-- 长时间未更新任务
-- 项目健康度异常
-- 已存在风险项
+所以当前路线是：
 
-#### 2. DRI 推荐
-```bash
-npm run dev -- dri suggest
-```
-输出：
-- 建议谁做 DRI
-- 推荐理由
-- 建议协作方
+1. **先证明 world model 成立**
+2. **先证明 intelligence layer 有解释力**
+3. **再用 Skill 和 Feishu 输出层完成交付包装**
+4. **最后再走向应用化与自动化**
 
-#### 3. 周报生成
-```bash
-npm run dev -- brief weekly
-```
-输出：
-- 本周进展
-- 关键风险
-- DRI 建议
-- 下周重点
-
-#### 4. 组织健康度
-```bash
-npm run dev -- org health
-```
-输出：
-- 目标状态
-- 阻塞任务数
-- DRI 覆盖率
-- 活跃风险数
-- 待决策事项数量
+这不是绕路，而是刻意控制节奏。
 
 ---
-
-## 使用流程
-
-一个典型的使用流程如下：
-
-1. 团队把目标、项目、任务、风险、责任等信息结构化存储
-2. CLI 基于世界模型运行风险扫描和健康度判断
-3. 系统识别阻塞点，并对关键事项给出 DRI 建议
-4. 自动生成周报或管理简报
-5. 后续输出到 Feishu Docs / Bitable / Chat，进入真实协作链路
-
-这意味着它不只是“分析数据”，而是在为跨团队协作提供一套更清晰的推进视角。
-
----
-
-## Skill 化交付结构
-
-仓库当前采用双层结构：
-
-1. **Intelligence Core**：保留现有 TypeScript 分析内核
-2. **Skill Packaging Layer**：新增 `skill/` 目录，承接赛事提交所需的能力定义、说明文档和后续适配脚本
-
-当前已新增：
-
-- `skill/SKILL.md`：定义项目作为组织智能 Skill 的定位、适用场景、输入输出和演进方向
-- `skill/references/submission-positioning.md`：定义赛事提交时的叙事口径
-- `skill/scripts/run-skill.mjs`：复用现有 intelligence 层的最小 Skill 运行入口
-- `src/skill-runner.ts`：将 risk scan / dri suggest / brief weekly / org health 抽象成统一能力接口
-
-这意味着当前项目不再只是“一个能跑的 CLI”，而是一个**可继续向 Feishu Docs / Base / Chat 落地的组织智能 Skill 原型**。
 
 ## 快速开始
 
-### 1. 安装依赖
+### 安装依赖
 ```bash
 npm install
 ```
 
-### 2. 运行示例命令
+### 运行 CLI 调试入口
 ```bash
-# 旧的 CLI 调试入口
 npm run dev -- risk scan
 npm run dev -- dri suggest
 npm run dev -- brief weekly
 npm run dev -- org health
+```
 
-# 新的 Skill 运行入口
+### 运行 Skill 入口
+```bash
 npm run skill:risk
 npm run skill:dri
 npm run skill:brief
 npm run skill:health
 ```
 
-### 3. 构建项目
+### 生成输出示例
 ```bash
-npm run build
+# 生成 Docs 风格输出
+npm run export:doc
+
+# 生成可用于 Feishu Docs 写入的 payload
+npm run export:feishu-doc
 ```
+
+---
+
+## Demo 路径（适合比赛演示）
+
+1. 展示 `examples/demo-data/sample-org-project.json` 里的组织世界模型
+2. 跑一次 `risk scan`，展示系统如何识别跨团队推进问题
+3. 跑一次 `dri suggest`，展示它如何推荐直接负责人
+4. 跑一次 `brief weekly`，展示管理摘要如何自动生成
+5. 展示 `outputs/feishu-doc-demo.md` 或 `outputs/feishu-doc-payload.json`，说明结果如何进入 Feishu Docs
+6. 最后用一句话收束：
+
+> 这不是一个 CLI 工具，而是一个以 Skill 交付、以 Feishu 为工作面、以组织推进为目标对象的组织智能原型。
 
 ---
 
@@ -250,92 +140,33 @@ feishu-cli-challenge/
 ├─ README.zh-CN.md
 ├─ README.en.md
 ├─ docs/
-│  ├─ data-model/
-│  │  └─ bitable-schema.md
-│  ├─ product/
-│  │  ├─ demo-script.md
-│  │  └─ mvp-plan.md
-│  └─ superpowers/specs/
-│     └─ 2026-04-02-feishu-org-intelligence-cli-design.md
 ├─ examples/
-│  └─ demo-data/
-│     └─ sample-org-project.json
+├─ outputs/
+├─ skill/
+│  ├─ SKILL.md
+│  ├─ references/
+│  └─ scripts/
 ├─ src/
 │  ├─ core/
 │  ├─ intelligence/
-│  └─ index.ts
+│  ├─ index.ts
+│  └─ skill-runner.ts
 ├─ package.json
 └─ tsconfig.json
 ```
 
 ---
 
-## 关键文档
+## 下一步最值得做的事情
 
-- **设计 Spec**：`docs/superpowers/specs/2026-04-02-feishu-org-intelligence-cli-design.md`
-- **MVP 实施计划**：`docs/product/mvp-plan.md`
-- **世界模型 Schema**：`docs/data-model/bitable-schema.md`
-- **Demo Script**：`docs/product/demo-script.md`
-- **Demo Data**：`examples/demo-data/sample-org-project.json`
-
----
-
-## 当前阶段
-
-当前项目已经完成：
-
-- 概念定义
-- 设计 Spec
-- MVP 计划
-- 世界模型 Schema
-- Demo 场景数据
-- CLI 最小骨架
-- 风险扫描 / DRI 推荐 / 周报生成 / 组织健康度原型
-
-下一步重点：
-
-1. 优化 CLI 输出体验
-2. 接入 Feishu Bitable
-3. 接入 Feishu Docs
-4. 完善比赛演示材料
-
----
-
-## 为什么这个项目值得比赛里讲
-
-因为它不是“又一个飞书自动化脚本”。
-
-它试图证明：
-
-> 飞书 CLI 不仅能编排文档、表格和消息，
-> 还可以成为组织智能层的控制台。
-
-如果要让评委记住这个项目，我希望是这 3 点：
-
-1. **不是个人助手，而是组织智能层**
-2. **不是任务工具，而是世界模型 + DRI 机制**
-3. **不是概念空转，而是已经有 CLI 原型和 Demo 数据闭环**
-
----
-
-## 项目状态
-
-当前为 **MVP 原型阶段**，优先验证：
-
-- 组织世界模型是否成立
-- 风险识别和 DRI 推荐是否具备解释力
-- CLI 到飞书对象的输出链路是否能打通
-
-如果这条路径成立，后面可以继续扩展到：
-
-- 更多团队协作场景
-- 更丰富的 Feishu 对象联动
-- 更强的智能规则与信号融合
+1. 接真实 Feishu Docs 写入
+2. 接 Feishu Base 作为 world model 数据源
+3. 增加 Chat / 卡片播报
+4. 增加 signals 自动汇聚
+5. 让系统从“被动调用”升级成“主动协同”
 
 ---
 
 ## 一句话总结
 
-Feishu Org Intelligence CLI 想验证的是：
-
-> 飞书 CLI 不只是效率工具的调用入口，也可以成为组织协作智能化的原型控制台。
+> Feishu Org Intelligence 想证明的，不是一个 CLI 能不能跑，而是：**飞书是否能承载一层真正帮助组织推进的智能系统。**
