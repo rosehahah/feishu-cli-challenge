@@ -10,7 +10,14 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js",
-    "dev": "node --loader ts-node/esm src/index.ts"
+    "dev": "node --loader ts-node/esm src/index.ts",
+    "skill:risk": "npm run build && node skill/scripts/run-skill.mjs risk-scan",
+    "skill:dri": "npm run build && node skill/scripts/run-skill.mjs dri-suggest",
+    "skill:brief": "npm run build && node skill/scripts/run-skill.mjs brief-weekly",
+    "skill:health": "npm run build && node skill/scripts/run-skill.mjs org-health",
+    "export:doc": "npm run build && mkdir -p outputs && node skill/scripts/export-doc.mjs brief-weekly",
+    "export:feishu-doc": "npm run build && mkdir -p outputs && node skill/scripts/export-feishu-doc.mjs brief-weekly",
+    "write:feishu-doc": "npm run build && mkdir -p outputs && node skill/scripts/write-feishu-doc.mjs brief-weekly"
   },
   "devDependencies": {
     "@types/node": "^24.6.0",
