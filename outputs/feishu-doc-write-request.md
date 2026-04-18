@@ -1,0 +1,67 @@
+# Feishu Docs Write Request
+
+Below is the content that should be written into a real Feishu document.
+
+## Suggested write method
+
+If using OpenClaw Feishu Doc tooling, call `feishu_doc.create` or `feishu_doc.write` with this markdown content.
+
+## Title
+
+Feishu Org Intelligence Output
+
+## Markdown Content
+
+# 上线 AI 风格海报功能并验证首月核心转化｜组织周度简报
+
+## 一、管理摘要
+- 目标周期：2026Q2
+- 目标状态：At Risk
+- 当前进度：58%
+- 活跃项目数：2
+- 开放风险数：3
+- 需要立即决策事项：5
+
+## 二、本周推进情况
+- AI 风格海报功能开发上线｜进度 72%｜健康度 Warning｜阶段 In Progress｜负责人 产品经理A
+- AI 风格海报增长验证与运营联动｜进度 35%｜健康度 Critical｜阶段 Planning｜负责人 运营负责人B
+
+## 三、关键风险与建议动作
+1. [P0 / Critical] 任务阻塞：完成生成引擎后端接入
+   - 原因：模型调用配额尚未确认，且设计参数未冻结
+   - 建议动作：明确阻塞解除条件，指定 DRI，并同步依赖方处理时限。
+2. [P0 / Critical] 任务阻塞：制定上线灰度方案
+   - 原因：依赖后端接入完成，且当前无明确推进 owner
+   - 建议动作：明确阻塞解除条件，指定 DRI，并同步依赖方处理时限。
+3. [P0 / Critical] 任务阻塞：建立核心转化指标看板
+   - 原因：埋点未完成，且增长项目缺少统一 DRI
+   - 建议动作：明确阻塞解除条件，指定 DRI，并同步依赖方处理时限。
+
+## 四、建议 DRI 与协同对象
+1. 任务阻塞：完成生成引擎后端接入
+   - 建议 DRI：产品经理A
+   - 推荐依据：项目当前 DRI 是 产品经理A；任务执行人是 研发A；该问题影响 AI 风格海报功能开发上线
+   - 协同对象：研发A、产品经理A、产品负责人
+2. 任务阻塞：制定上线灰度方案
+   - 建议 DRI：产品经理A
+   - 推荐依据：项目当前 DRI 是 产品经理A；任务执行人是 产品经理A；该问题影响 AI 风格海报功能开发上线
+   - 协同对象：产品经理A、产品负责人
+3. 任务阻塞：建立核心转化指标看板
+   - 建议 DRI：运营负责人B
+   - 推荐依据：项目当前 DRI 是 运营负责人B；任务执行人是 数据分析师A；该问题影响 AI 风格海报增长验证与运营联动
+   - 协同对象：数据分析师A、运营负责人B、产品负责人
+
+## 五、需要管理层关注
+- AI 风格海报功能开发上线、AI 风格海报增长验证与运营联动 当前健康度偏低，需要管理层关注关键路径和资源调配。
+- 优先确认“任务阻塞：完成生成引擎后端接入”的直接负责人，避免继续依赖人肉对齐。
+
+## 六、下周重点
+- 锁定关键阻塞任务的 DRI 和解除时限。
+- 补齐增长验证项目 owner，统一活动、埋点和指标节奏。
+- 完成灰度方案，形成可执行的上线检查清单。
+- 继续提升项目健康度，避免新增高优先级阻塞。
+
+## Notes
+
+- For competition demo, this file proves the project can move from analysis to Feishu Doc write intent.
+- In production, replace this file export with a direct Feishu Docs API call or tool invocation.

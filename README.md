@@ -115,6 +115,9 @@ npm run export:doc
 
 # 生成可用于 Feishu Docs 写入的 payload
 npm run export:feishu-doc
+
+# 生成“真实写入意图”文档请求
+npm run write:feishu-doc
 ```
 
 ---
@@ -156,6 +159,26 @@ feishu-cli-challenge/
 ```
 
 ---
+
+## 当前 Feishu 写入闭环状态
+
+当前分支已经把 Feishu 输出闭环拆成三步：
+
+1. **Docs 风格内容生成**：输出适合飞书文档承载的 markdown 结果
+2. **Feishu Docs payload 生成**：输出后续可直接写入文档系统的结构化数据
+3. **Feishu Docs write request 生成**：输出“该如何把内容写入真实飞书文档”的最终请求骨架
+
+对应脚本：
+
+- `npm run export:doc`
+- `npm run export:feishu-doc`
+- `npm run write:feishu-doc`
+
+这使得当前仓库已经完成了从：
+
+> 分析逻辑 → Skill 能力 → 飞书文档写入意图
+
+的演示级闭环。
 
 ## 下一步最值得做的事情
 
