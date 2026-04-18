@@ -123,6 +123,13 @@ npm run write:feishu-doc
 ---
 
 ## Demo 路径（适合比赛演示）
+除了命令和输出文件，当前仓库还补了提交辅助材料，位于 `docs/submission/`：
+
+- `competition-summary.md`：比赛提交摘要
+- `demo-script-1min.md`：一分钟演示讲稿
+- `judge-highlights.md`：评委视角亮点总结
+- `pr-description.md`：PR 描述草稿
+
 
 1. 展示 `examples/demo-data/sample-org-project.json` 里的组织世界模型
 2. 跑一次 `risk scan`，展示系统如何识别跨团队推进问题
@@ -193,3 +200,18 @@ feishu-cli-challenge/
 ## 一句话总结
 
 > Feishu Org Intelligence 想证明的，不是一个 CLI 能不能跑，而是：**飞书是否能承载一层真正帮助组织推进的智能系统。**
+
+---
+
+## 当前比赛提交就绪度
+
+到当前分支为止，仓库已经具备：
+
+- 可运行的 intelligence core
+- Skill 包装层
+- Docs / Feishu Docs 输出样例
+- Feishu Docs 写入意图骨架
+- README 首页叙事重构
+- 提交摘要 / Demo 讲稿 / PR 草稿 / 评委亮点材料
+
+也就是说，它已经不只是“可以继续开发的项目”，而是一个**可以被展示、被讲述、被提交**的比赛版本基础。
