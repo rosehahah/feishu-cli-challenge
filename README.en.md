@@ -1,4 +1,6 @@
-# Feishu Org Intelligence CLI
+# Feishu Org Intelligence
+
+> This repository is evolving from a pure CLI prototype into an **organizational intelligence engine + Skill delivery layer**. The CLI remains as a debug and demo console, while the Skill layer becomes the competition-facing packaging and capability surface.
 
 English | [简体中文](./README.zh-CN.md)
 
@@ -133,7 +135,7 @@ That is exactly the problem this project is trying to solve:
 
 ## Current Capabilities
 
-The current version already includes a **Node.js / TypeScript** CLI prototype that can run directly against demo data.
+The current version already includes a **Node.js / TypeScript** organizational intelligence engine, plus a newly added **Skill packaging layer** for competition submission and future Feishu integration.
 
 ### Implemented Commands
 
@@ -195,6 +197,24 @@ This means the project is not just “an analysis tool”. It is an attempt to p
 
 ---
 
+## Skill Delivery Structure
+
+The repository now uses a dual-layer structure:
+
+1. **Intelligence Core**: the existing TypeScript analysis engine
+2. **Skill Packaging Layer**: the new `skill/` directory that defines competition-facing capability packaging, references, and adapter scripts
+
+Newly added in this branch:
+
+- `skill/SKILL.md`: defines the project as an organizational intelligence Skill
+- `skill/references/submission-positioning.md`: clarifies the submission framing
+- `skill/references/feishu-output-plan.md`: clarifies how outputs should land back into Feishu work surfaces
+- `skill/scripts/run-skill.mjs`: minimal Skill execution entry built on top of the current intelligence engine
+- `skill/scripts/export-doc.mjs`: minimal Feishu Docs-oriented export simulation
+- `src/skill-runner.ts`: unified capability adapter for risk scan, DRI suggestion, weekly brief, and org health
+
+This means the project should no longer be understood as only a CLI demo. It is now an **organizational intelligence prototype with a Skill delivery skeleton and a Feishu output path**.
+
 ## Quick Start
 
 ### 1. Install dependencies
@@ -204,10 +224,20 @@ npm install
 
 ### 2. Run example commands
 ```bash
+# Existing CLI debug entry
 npm run dev -- risk scan
 npm run dev -- dri suggest
 npm run dev -- brief weekly
 npm run dev -- org health
+
+# New Skill-oriented entry
+npm run skill:risk
+npm run skill:dri
+npm run skill:brief
+npm run skill:health
+
+# Export a Docs-style output file
+npm run export:doc
 ```
 
 ### 3. Build the project
